@@ -134,12 +134,6 @@ class AddressBook(UserDict):
     def read_from_json(self):
         with open("address_book.json", "r") as file:
             deserialized_records = json.load(file)
-            # for record_data in deserialized_records:
-            #     name = Name(record_data["name"])
-            #     phones = [Phone(phone) for phone in record_data["phones"]]
-            #     birthday = Birthday(record_data["birthday"]) if record_data["birthday"] else None
-            #     record = Record(name, *phones, birthday=birthday)
-            #     self.add_record(record)
             return deserialized_records
 
     def find_record(self, search_item):
@@ -239,4 +233,6 @@ if __name__ == '__main__':
     starting_program()
 
     ab.save_to_json()
+    ab.read_from_json()
+
     # # print(ab.read_from_json())
