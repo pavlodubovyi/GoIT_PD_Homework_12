@@ -97,6 +97,7 @@ class Record:
         }
 
 def starting_program():
+        ab.read_from_json()
         entry_question = input("Would you like to see all records? Type Y/n + ENTER: ")
         if entry_question.lower().startswith("y"):
             print(ab.iterator())
@@ -134,7 +135,15 @@ class AddressBook(UserDict):
     def read_from_json(self):
         with open("address_book.json", "r") as file:
             deserialized_records = json.load(file)
-            return deserialized_records
+            reconstructed_records = []
+            for record_data in json.load(file):
+                name = Name(record_data["name"])
+                phones = [Phone(phone) for phone in record_data["phones"]]
+                birthday = Birthday(record_data["birthday"]) if record_data["birthday"] else None
+                record = Record(name, *phones, birthday=birthday)
+                reconstructed_records.append(record)
+                self.add_record(record)
+            return reconstructed_records
 
     def find_record(self, search_item):
         output = []
@@ -198,41 +207,39 @@ class AddressBook(UserDict):
 if __name__ == '__main__':
 
     # далі починаються мої перевірочні тести
-    name_1 = Name('Bill')
-    phone_1 = Phone('1234567890')
-    phone_2 = Phone('0987654321')
-    birthday_1 = Birthday("19-06-2004")
-    rec_1 = Record(name_1, phone_1, phone_2, birthday=birthday_1)
+    # name_1 = Name('Bill')
+    # phone_1 = Phone('1234567890')
+    # phone_2 = Phone('0987654321')
+    # birthday_1 = Birthday("19-06-2004")
+    # rec_1 = Record(name_1, phone_1, phone_2, birthday=birthday_1)
     ab = AddressBook()
-    ab.add_record(rec_1)
+    # ab.add_record(rec_1)
   
-    name_2 = Name('Joe')
-    birthday_2 = Birthday("23-11-1984")
-    rec_2 = Record(name_2, birthday=birthday_2)
-    ab.add_record(rec_2)
+    # name_2 = Name('Joe')
+    # birthday_2 = Birthday("23-11-1984")
+    # rec_2 = Record(name_2, birthday=birthday_2)
+    # ab.add_record(rec_2)
 
-    name_3 = Name('Witney')
-    birthday_3 = Birthday("21-01-1985")
-    phone_Witney_1 = Phone('1029384756')
-    phone_Witney_2 = Phone('0192837465')
-    rec_3 = Record(name_3, phone_Witney_1, phone_Witney_2, birthday=birthday_3)
-    ab.add_record(rec_3)
+    # name_3 = Name('Witney')
+    # birthday_3 = Birthday("21-01-1985")
+    # phone_Witney_1 = Phone('1029384756')
+    # phone_Witney_2 = Phone('0192837465')
+    # rec_3 = Record(name_3, phone_Witney_1, phone_Witney_2, birthday=birthday_3)
+    # ab.add_record(rec_3)
 
-    name_4 = Name('James')
-    phone_4_1 = Phone('1230984576')
-    birthday_4 = Birthday("02-09-1982")
-    rec_4 = Record(name_4, phone_4_1, birthday=birthday_4)
-    ab.add_record(rec_4)
+    # name_4 = Name('James')
+    # phone_4_1 = Phone('1230984576')
+    # birthday_4 = Birthday("02-09-1982")
+    # rec_4 = Record(name_4, phone_4_1, birthday=birthday_4)
+    # ab.add_record(rec_4)
 
-    name_5 = Name('Lincoln')
-    phone_5_1 = Phone('5647382910')
-    birthday_5 = Birthday("02-11-2008")
-    rec_5 = Record(name_5, phone_5_1, birthday=birthday_5)
-    ab.add_record(rec_5)
+    # name_5 = Name('Lincoln')
+    # phone_5_1 = Phone('5647382910')
+    # birthday_5 = Birthday("02-11-2008")
+    # rec_5 = Record(name_5, phone_5_1, birthday=birthday_5)
+    # ab.add_record(rec_5)
 
     starting_program()
 
-    ab.save_to_json()
-    ab.read_from_json()
-
+    # ab.save_to_json()
     # # print(ab.read_from_json())
